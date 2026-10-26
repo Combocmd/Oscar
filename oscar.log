@@ -41,3 +41,30 @@
 2026-10-26 15:22:34 | INFO     | Scheduler started
 2026-10-26 15:22:34 | INFO     | ⏰ Scheduler démarré. Prochain achat: 2026-10-26 15:30 UTC
 2026-10-26 15:22:34 | INFO     | 🔄 Bot en attente... (Ctrl+C pour arrêter)
+2026-10-26 15:32:41 | INFO     | État chargé: balance=22.50 USDT, asset=0.00009305
+2026-10-26 15:32:41 | INFO     | ═══════════════════════════════════
+2026-10-26 15:32:41 | INFO     |   OSCAR - DCA Bot v1.0
+2026-10-26 15:32:41 | INFO     |   Mode: SIMULATION (Paper)
+2026-10-26 15:32:41 | INFO     |   Paire: BTC/USDT | Hebdo: 7.5 USDT
+2026-10-26 15:32:41 | INFO     |   Jour/Heure: 0 (0=Lun) à 15:30 UTC
+2026-10-26 15:32:41 | INFO     |   Capital initial: 30.0 USDT
+2026-10-26 15:32:41 | INFO     | ═══════════════════════════════════
+2026-10-26 15:32:45 | INFO     | Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-10-26 15:32:45 | INFO     | Added job "OscarBot.execute_buy" to job store "default"
+2026-10-26 15:32:45 | INFO     | Scheduler started
+2026-10-26 15:32:45 | INFO     | ⏰ Scheduler démarré. Prochain achat: 2026-11-02 15:30 UTC
+2026-10-26 15:32:45 | INFO     | 🔄 Bot en attente... (Ctrl+C pour arrêter)
+2026-10-26 15:55:21 | INFO     | État chargé: balance=7.50 USDT, asset=0.00027891
+2026-10-26 15:55:21 | INFO     | ═══════════════════════════════════
+2026-10-26 15:55:21 | INFO     |   OSCAR - DCA Bot v1.0
+2026-10-26 15:55:21 | INFO     |   Mode: SIMULATION (Paper)
+2026-10-26 15:55:21 | INFO     |   Paire: BTC/USDT | Hebdo: 7.5 USDT
+2026-10-26 15:55:21 | INFO     |   Jour/Heure: 0 (0=Lun) à 15:30 UTC
+2026-10-26 15:55:21 | INFO     |   Capital initial: 30.0 USDT
+2026-10-26 15:55:21 | INFO     | ═══════════════════════════════════
+2026-10-26 15:55:21 | INFO     | 🎯 Mode ONE-SHOT (GitHub Actions / cron)
+2026-10-26 15:55:21 | INFO     | 🛒 Tentative d'achat BTC/USDT...
+2026-10-26 15:55:27 | INFO     | Trade loggé: 0.00009299 BTC @ 80653.79 | P&L: -0.17%
+2026-10-26 15:55:27 | INFO     | ✅ ACHAT RÉUSSI: 0.00009299 BTC @ 80,653.79 (prix marché: 80,532.99)
+2026-10-26 15:55:27 | INFO     |    Portfolio: 29.95 USDT (-0.17%)
+2026-10-26 15:55:27 | INFO     | ✅ One-shot terminé avec succès

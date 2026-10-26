@@ -2,8 +2,8 @@ name: Oscar DCA Weekly
 
 on:
   schedule:
-    # Lundi 15:30 UTC = 15:30 heure Sénégal (GMT)
-    - cron: '30 15 * * 1'
+    # Lundi 00:00 UTC = minuit heure Sénégal (GMT)
+    - cron: '0 0 * * 1'
   workflow_dispatch:  # Permet de lancer manuellement depuis l'interface GitHub
 
 permissions:
@@ -45,8 +45,8 @@ jobs:
           WEEKLY_AMOUNT: ${{ vars.WEEKLY_AMOUNT || '7.5' }}
           STARTING_BALANCE: ${{ vars.STARTING_BALANCE || '30' }}
           BUY_DAY: ${{ vars.BUY_DAY || '0' }}
-          BUY_HOUR: ${{ vars.BUY_HOUR || '15' }}
-          BUY_MINUTE: ${{ vars.BUY_MINUTE || '30' }}
+          BUY_HOUR: ${{ vars.BUY_HOUR || '0' }}
+          BUY_MINUTE: ${{ vars.BUY_MINUTE || '0' }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: |
