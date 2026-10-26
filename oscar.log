@@ -1,0 +1,43 @@
+2026-10-26 15:15:42 | INFO     | ═══════════════════════════════════
+2026-10-26 15:15:42 | INFO     |   OSCAR - DCA Bot v1.0
+2026-10-26 15:15:42 | INFO     |   Mode: SIMULATION (Paper)
+2026-10-26 15:15:42 | INFO     |   Paire: BTC/USDT | Hebdo: 7.5 USDT
+2026-10-26 15:15:42 | INFO     |   Jour/Heure: 0 (0=Lun) à 00:00 UTC
+2026-10-26 15:15:42 | INFO     |   Capital initial: 30.0 USDT
+2026-10-26 15:15:42 | INFO     | ═══════════════════════════════════
+2026-10-26 15:15:42 | INFO     | 🎯 Premier lancement détecté - Achat initial...
+2026-10-26 15:15:42 | INFO     | 🛒 Tentative d'achat BTC/USDT...
+2026-10-26 15:15:47 | INFO     | Trade loggé: 0.00009305 BTC @ 80600.74 | P&L: -0.04%
+2026-10-26 15:15:47 | INFO     | ✅ ACHAT RÉUSSI: 0.00009305 BTC @ 80,600.74 (prix marché: 80,480.02)
+2026-10-26 15:15:47 | INFO     |    Portfolio: 29.99 USDT (-0.04%)
+2026-10-26 15:15:47 | INFO     | Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-10-26 15:15:47 | INFO     | Added job "OscarBot.execute_buy" to job store "default"
+2026-10-26 15:15:47 | INFO     | Scheduler started
+2026-10-26 15:15:47 | INFO     | ⏰ Scheduler démarré. Prochain achat: 2026-11-02 00:00 UTC
+2026-10-26 15:15:47 | INFO     | 🔄 Bot en attente... (Ctrl+C pour arrêter)
+2026-10-26 15:18:36 | INFO     | État chargé: balance=22.50 USDT, asset=0.00009305
+2026-10-26 15:18:36 | INFO     | ═══════════════════════════════════
+2026-10-26 15:18:36 | INFO     |   OSCAR - DCA Bot v1.0
+2026-10-26 15:18:36 | INFO     |   Mode: SIMULATION (Paper)
+2026-10-26 15:18:36 | INFO     |   Paire: BTC/USDT | Hebdo: 7.5 USDT
+2026-10-26 15:18:36 | INFO     |   Jour/Heure: 0 (0=Lun) à 00:00 UTC
+2026-10-26 15:18:36 | INFO     |   Capital initial: 30.0 USDT
+2026-10-26 15:18:36 | INFO     | ═══════════════════════════════════
+2026-10-26 15:18:40 | INFO     | Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-10-26 15:18:40 | INFO     | Added job "OscarBot.execute_buy" to job store "default"
+2026-10-26 15:18:40 | INFO     | Scheduler started
+2026-10-26 15:18:40 | INFO     | ⏰ Scheduler démarré. Prochain achat: 2026-11-02 00:00 UTC
+2026-10-26 15:18:40 | INFO     | 🔄 Bot en attente... (Ctrl+C pour arrêter)
+2026-10-26 15:22:30 | INFO     | État chargé: balance=22.50 USDT, asset=0.00009305
+2026-10-26 15:22:30 | INFO     | ═══════════════════════════════════
+2026-10-26 15:22:30 | INFO     |   OSCAR - DCA Bot v1.0
+2026-10-26 15:22:30 | INFO     |   Mode: SIMULATION (Paper)
+2026-10-26 15:22:30 | INFO     |   Paire: BTC/USDT | Hebdo: 7.5 USDT
+2026-10-26 15:22:30 | INFO     |   Jour/Heure: 0 (0=Lun) à 15:30 UTC
+2026-10-26 15:22:30 | INFO     |   Capital initial: 30.0 USDT
+2026-10-26 15:22:30 | INFO     | ═══════════════════════════════════
+2026-10-26 15:22:34 | INFO     | Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-10-26 15:22:34 | INFO     | Added job "OscarBot.execute_buy" to job store "default"
+2026-10-26 15:22:34 | INFO     | Scheduler started
+2026-10-26 15:22:34 | INFO     | ⏰ Scheduler démarré. Prochain achat: 2026-10-26 15:30 UTC
+2026-10-26 15:22:34 | INFO     | 🔄 Bot en attente... (Ctrl+C pour arrêter)

@@ -379,8 +379,39 @@ class OscarBot:
         self._shutdown.set()
 
 
+def run_once() -> bool:
+    """Mode one-shot : exécute un seul achat et quitte. Pour GitHub Actions / cron."""
+    bot = OscarBot()
+    logger.info("🎯 Mode ONE-SHOT (GitHub Actions / cron)")
+    
+    # Exécuter l'achat
+    success = bot.execute_buy()
+    
+    # Afficher status final
+    bot.print_status()
+    
+    if success:
+        logger.info("✅ One-shot terminé avec succès")
+    else:
+        logger.error("❌ One-shot échoué")
+    
+    return success
+
+
 def main():
     """Point d'entrée principal."""
+    import argparse
+    
+    parser = argparse.ArgumentParser(description="Oscar - DCA Bot")
+    parser.add_argument("--once", action="store_true", 
+                        help="Mode one-shot : un seul achat puis exit (pour GitHub Actions / cron)")
+    args = parser.parse_args()
+    
+    if args.once:
+        success = run_once()
+        sys.exit(0 if success else 1)
+    
+    # Mode normal (scheduler continu)
     bot = OscarBot()
 
     # Gestion signaux pour arrêt propre

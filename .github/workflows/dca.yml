@@ -1,0 +1,82 @@
+name: Oscar DCA Weekly
+
+on:
+  schedule:
+    # Lundi 15:30 UTC = 15:30 heure Sénégal (GMT)
+    - cron: '30 15 * * 1'
+  workflow_dispatch:  # Permet de lancer manuellement depuis l'interface GitHub
+
+permissions:
+  contents: write  # Nécessaire pour push state.json / trades.csv
+
+jobs:
+  dca:
+    name: Oscar DCA Buy
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    
+    steps:
+      # 1. Checkout du repo (avec l'historique pour push)
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Historique complet pour push
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      # 2. Setup Python
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      # 3. Install dependencies
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # 4. Run Oscar one-shot (un seul achat)
+      - name: Execute DCA Buy
+        id: oscar
+        env:
+          DRY_RUN: true
+          SYMBOL: ${{ vars.SYMBOL || 'BTC/USDT' }}
+          WEEKLY_AMOUNT: ${{ vars.WEEKLY_AMOUNT || '7.5' }}
+          STARTING_BALANCE: ${{ vars.STARTING_BALANCE || '30' }}
+          BUY_DAY: ${{ vars.BUY_DAY || '0' }}
+          BUY_HOUR: ${{ vars.BUY_HOUR || '15' }}
+          BUY_MINUTE: ${{ vars.BUY_MINUTE || '30' }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          python oscar.py --once
+
+      # 5. Commit & push updated state files (state.json, trades.csv)
+      - name: Commit and push state updates
+        if: always()  # Push même en cas d'erreur pour sauvegarder l'état
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          
+          # Vérifier s'il y a des changements
+          if git diff --quiet state.json trades.csv; then
+            echo "Aucun changement d'état à commiter"
+          else
+            git add state.json trades.csv
+            git commit -m "Oscar DCA: weekly buy $(date -u +'%Y-%m-%d %H:%M UTC')"
+            git push
+            echo "✅ État mis à jour et poussé sur GitHub"
+          fi
+
+      # 6. Upload logs as artifact (pour debug)
+      - name: Upload logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: oscar-logs
+          path: |
+            oscar.log
+            state.json
+            trades.csv
+          retention-days: 30
