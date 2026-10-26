@@ -1,8 +1,8 @@
 {
-  "balance_usdt": 30.0,
-  "total_asset": 0.0,
-  "total_invested": 0.0,
-  "last_buy_date": null,
-  "total_fees_paid": 0.0,
-  "buy_count": 0
+  "balance_usdt": 22.5,
+  "total_asset": 9.320311518585274e-05,
+  "total_invested": 7.5,
+  "last_buy_date": "2026-10-26T16:08:41.276691+00:00",
+  "total_fees_paid": 0.01125,
+  "buy_count": 1
 }

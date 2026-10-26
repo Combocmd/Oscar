@@ -1,1 +1,1 @@
-timestamp,pair,price,quantity,cost_usdt,fees_usdt,slippage_usdt,balance_usdt,total_asset,total_invested,portfolio_value,pnl_usd,pnl_pct
+timestamp,pair,price,quantity,cost_usdt,fees_usdt,slippage_usdt,balance_usdt,total_asset,total_invested,portfolio_value,pnl_usd,pnl_pct2026-10-26T16:08:41.582102+00:00,BTC/USDT,80469.41,9.32e-05,7.5,0.0075,0.0037,22.5,9.32e-05,7.5,29.99,-0.01,-0.04
