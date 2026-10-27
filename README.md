@@ -138,6 +138,15 @@ BINANCE_API_SECRET=yyy
 > ⚠️ **En mode réel, le bot place de VRAIS ordres MARKET sur ton compte.**
 > Commence petit, surveille les premiers achats.
 
+> **Sécurité actuelle :** Oscar refuse volontairement `DRY_RUN=False`, car la
+> couche d'exécution réelle n'est pas implémentée. Cette version est paper-only.
+
+### Protection contre les doublons
+
+Oscar est idempotent par semaine : si un achat a déjà été enregistré pendant la
+semaine ISO en cours, un lancement manuel ou un déclenchement GitHub en double
+est ignoré sans modifier `state.json` ni `trades.csv`.
+
 ---
 
 ## 🔧 Commandes utiles

@@ -5,6 +5,7 @@ Usage: python live_pnl_monitor.py  (laisse tourner dans un terminal à part)
 """
 
 import json
+import os
 import time
 import signal
 import sys
@@ -12,14 +13,16 @@ from datetime import datetime
 from pathlib import Path
 
 import ccxt
+from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).parent
 STATE_FILE = BASE_DIR / "state.json"
 LIVE_PNL_FILE = BASE_DIR / "live_pnl.txt"
 
 # Config
-SYMBOL = "BTC/USDT"
-STARTING_BALANCE = 30.0
+load_dotenv(BASE_DIR / ".env")
+SYMBOL = os.getenv("SYMBOL", "BTC/USDT")
+STARTING_BALANCE = float(os.getenv("STARTING_BALANCE", "30"))
 UPDATE_INTERVAL = 30  # secondes
 
 exchange = ccxt.binance({"enableRateLimit": True})

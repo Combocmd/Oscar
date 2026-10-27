@@ -12,6 +12,8 @@ import json
 import logging
 import signal
 import threading
+import csv
+import argparse
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional, Dict, Any
@@ -99,6 +101,9 @@ class StateManager:
                     state = json.load(f)
                 logger.info(f"État chargé: balance={state.get('balance_usdt', 0):.2f} USDT, "
                            f"asset={state.get('total_asset', 0):.8f}")
+                defaults = self.default_state()
+                for key, value in defaults.items():
+                    state.setdefault(key, value)
                 return state
             except Exception as e:
                 logger.error(f"Erreur lecture state.json: {e}. Nouveau state créé.")
@@ -180,9 +185,13 @@ class TradeLogger:
             "pnl_pct": round(portfolio["pnl_pct"], 2),
         }
 
-        df = pd.DataFrame([row])
-        write_header = not self.trades_file.exists()
-        df.to_csv(self.trades_file, mode="a", header=write_header, index=False)
+        # csv.writer avec newline="" évite les lignes collées sur Windows.
+        write_header = not self.trades_file.exists() or self.trades_file.stat().st_size == 0
+        with open(self.trades_file, "a", newline="", encoding="utf-8") as file:
+            writer = csv.DictWriter(file, fieldnames=self.headers)
+            if write_header:
+                writer.writeheader()
+            writer.writerow(row)
         logger.info(f"Trade loggé: {quantity:.8f} {pair.split('/')[0]} @ {price:.2f} | P&L: {portfolio['pnl_pct']:+.2f}%")
 
 
@@ -239,13 +248,23 @@ class OscarBot:
         load_dotenv()
 
         # Config depuis .env
-        self.dry_run = os.getenv("DRY_RUN", "True") == "True"
+        self.dry_run = os.getenv("DRY_RUN", "true").strip().lower() in {"1", "true", "yes", "on"}
         self.symbol = os.getenv("SYMBOL", "BTC/USDT")
         self.weekly_amount = float(os.getenv("WEEKLY_AMOUNT", "7.5"))
         self.starting_balance = float(os.getenv("STARTING_BALANCE", "30"))
         self.buy_day = int(os.getenv("BUY_DAY", "0"))  # 0=Lundi
         self.buy_hour = int(os.getenv("BUY_HOUR", "0"))
         self.buy_minute = int(os.getenv("BUY_MINUTE", "0"))
+
+        if not self.dry_run:
+            raise RuntimeError(
+                "Mode réel désactivé par sécurité : Oscar ne place pas encore de vrais ordres. "
+                "Laisse DRY_RUN=True."
+            )
+        if self.weekly_amount <= 0 or self.starting_balance <= 0:
+            raise ValueError("WEEKLY_AMOUNT et STARTING_BALANCE doivent être positifs.")
+        if self.weekly_amount > self.starting_balance:
+            raise ValueError("WEEKLY_AMOUNT ne peut pas dépasser STARTING_BALANCE.")
 
         # Telegram (optionnel)
         self.telegram_token = os.getenv("TELEGRAM_BOT_TOKEN")
@@ -298,6 +317,19 @@ class OscarBot:
 
     def execute_buy(self) -> bool:
         """Exécute l'achat hebdomadaire. Returns True si succès."""
+        # Protection idempotente : un lancement manuel et le cron GitHub
+        # dans la même semaine ne peuvent pas créer deux achats.
+        last_buy = self.state.state.get("last_buy_date")
+        if last_buy:
+            try:
+                last_week = datetime.fromisoformat(last_buy).isocalendar()[:2]
+                current_week = datetime.now(timezone.utc).isocalendar()[:2]
+                if last_week == current_week:
+                    logger.info("Achat ignoré : un achat existe déjà pour cette semaine.")
+                    return True  # no-op idempotent, pas une erreur de workflow
+            except ValueError:
+                logger.warning("last_buy_date invalide; poursuite avec prudence.")
+
         logger.info(f"🛒 Tentative d'achat {self.symbol}...")
 
         # 1. Récupérer prix réel
@@ -400,8 +432,6 @@ def run_once() -> bool:
 
 def main():
     """Point d'entrée principal."""
-    import argparse
-    
     parser = argparse.ArgumentParser(description="Oscar - DCA Bot")
     parser.add_argument("--once", action="store_true", 
                         help="Mode one-shot : un seul achat puis exit (pour GitHub Actions / cron)")

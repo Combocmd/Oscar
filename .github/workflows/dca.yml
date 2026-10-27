@@ -6,6 +6,10 @@ on:
     - cron: '0 0 * * 1'
   workflow_dispatch:  # Permet de lancer manuellement depuis l'interface GitHub
 
+concurrency:
+  group: oscar-dca
+  cancel-in-progress: false
+
 permissions:
   contents: write  # Nécessaire pour push state.json / trades.csv
 
