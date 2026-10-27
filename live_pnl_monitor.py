@@ -6,6 +6,7 @@ Usage: python live_pnl_monitor.py  (laisse tourner dans un terminal à part)
 
 import json
 import os
+import subprocess
 import time
 import signal
 import sys
@@ -24,6 +25,7 @@ load_dotenv(BASE_DIR / ".env")
 SYMBOL = os.getenv("SYMBOL", "BTC/USDT")
 STARTING_BALANCE = float(os.getenv("STARTING_BALANCE", "30"))
 UPDATE_INTERVAL = 30  # secondes
+SYNC_GITHUB = os.getenv("SYNC_GITHUB", "true").strip().lower() in {"1", "true", "yes", "on"}
 
 exchange = ccxt.binance({"enableRateLimit": True})
 _shutdown = False
@@ -52,6 +54,24 @@ def load_state() -> dict:
         "total_asset": 0.0,
         "total_invested": 0.0,
     }
+
+
+def sync_github_state() -> None:
+    """Récupère les achats commités par GitHub Actions, sans modifier le code."""
+    if not SYNC_GITHUB or not (BASE_DIR / ".git").exists():
+        return
+    try:
+        subprocess.run(
+            ["git", "pull", "--ff-only", "origin", "main"],
+            cwd=BASE_DIR,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            timeout=15,
+            check=False,
+        )
+    except (OSError, subprocess.SubprocessError):
+        # Le prix live reste utilisable même si GitHub est momentanément indisponible.
+        pass
 
 
 def calculate_pnl(state: dict, price: float) -> dict:
@@ -133,6 +153,7 @@ def main():
     print("Appuie sur Ctrl+C pour arrêter\n")
 
     while not _shutdown:
+        sync_github_state()
         state = load_state()
         price = fetch_price()
 
@@ -154,6 +175,7 @@ def main():
             time.sleep(1)
 
     # Dernière écriture avant sortie
+    sync_github_state()
     state = load_state()
     price = fetch_price()
     if price > 0:
