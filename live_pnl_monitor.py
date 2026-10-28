@@ -166,7 +166,7 @@ def main():
                   f"BTC: {price:,.0f} | Total: {pnl_data['total']:,.2f} | "
                   f"P&L: {pnl_data['pnl']:+.2f} ({pnl_data['pnl_pct']:+.2f}%) {pnl_data['status']}")
         else:
-            print(f"[{datetime.now().strftime('%H:%M:%S')}] ⚠️ Erreur prix")
+            print(f"[{datetime.now().strftime('%H:%M:%S')}] [ERREUR] Prix indisponible")
 
         # Attente avec vérification shutdown toutes les secondes
         for _ in range(UPDATE_INTERVAL):
@@ -182,7 +182,7 @@ def main():
         pnl_data = calculate_pnl(state, price)
         write_live_pnl(pnl_data, price)
 
-    print("\n✅ Moniteur arrêté. live_pnl.txt à jour.")
+    print("\nMoniteur arrete. live_pnl.txt a jour.")
     print(f"Ouvre {LIVE_PNL_FILE} pour voir le dernier P&L.")
 
 
